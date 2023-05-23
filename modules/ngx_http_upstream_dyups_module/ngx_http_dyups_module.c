@@ -2118,11 +2118,13 @@ ngx_http_dyups_read_msg(ngx_event_t *ev)
     }
 
 #if (NGX_HTTP_UPSTREAM_CHECK)
-    if (dmcf->serial_update && (sh->flag % workers != ngx_worker)) {
-        ngx_log_error(NGX_LOG_DEBUG, ev->log, 0,
+    if (dmcf->serial_update) {
+        if (sh->flag % workers != ngx_worker) {
+            ngx_log_error(NGX_LOG_DEBUG, ev->log, 0,
                       "[dyups] ngx_pid: %P, ngx_worker: %d, sh->flag: %d, not meet lock condition", ngx_pid, ngx_worker, sh->flag);
-        ngx_dyups_add_timer(ev, dmcf->read_msg_timeout);
-        return;
+            ngx_dyups_add_timer(ev, dmcf->read_msg_timeout);
+            return;
+        }
     }
     else if (!ngx_shmtx_trylock(&shpool->mutex)) {
         goto finish;
