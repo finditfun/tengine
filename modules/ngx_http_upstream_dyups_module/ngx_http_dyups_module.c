@@ -2125,6 +2125,7 @@ ngx_http_dyups_read_msg(ngx_event_t *ev)
             ngx_dyups_add_timer(ev, dmcf->read_msg_timeout);
             return;
         }
+        ngx_shmtx_lock(&shpool->mutex);
     }
     else if (!ngx_shmtx_trylock(&shpool->mutex)) {
         goto finish;
