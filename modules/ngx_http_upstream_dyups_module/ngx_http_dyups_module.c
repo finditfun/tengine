@@ -2168,7 +2168,7 @@ ngx_http_dyups_read_msg_locked(ngx_event_t *ev)
     ngx_dyups_msg_t     *msg;
     ngx_dyups_shctx_t   *sh;
     ngx_dyups_status_t  *status;
-    ngx_http_dyups_main_conf_t  *dmcf
+    ngx_http_dyups_main_conf_t  *dmcf;
 
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, ev->log, 0,
                    "[dyups] read msg %P", ngx_pid);
